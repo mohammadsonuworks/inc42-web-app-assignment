@@ -12,6 +12,6 @@ func Add(a, b int) int {
 func main() {
 	// Example usage of the Add function
 	x, y := 5, 6
-	result := Add(x, y)
+	result := Add(x, y
 	fmt.Printf("The sum of %d and %d is %d\n", x, y, result)
 }
