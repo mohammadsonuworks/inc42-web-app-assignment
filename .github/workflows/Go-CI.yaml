@@ -11,7 +11,7 @@ on:
 env:
   GO_VERSION: '1.22'
   GO_COMPONENT_PATH: go_component
-  IMAGE_URL_FOR_DOCKER_HUB: sonukiwi/inc42-assignment-go-app-repo:latest
+  DOCKER_HUB_REPO: sonukiwi/inc42-assignment-go-app-repo
 
 jobs:
   Linter:
@@ -64,11 +64,19 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Get Short Git Commit Hash
+        id: git_commit_hash
+        run: |
+          echo "::set-output name=short_hash::$(git rev-parse --short HEAD)"
       - name: Build Docker Image
         working-directory: ${{ env.GO_COMPONENT_PATH }}
-        run: docker build -t ${{ env.IMAGE_URL_FOR_DOCKER_HUB }} .
+        run: |
+          TAG="${{ env.DOCKER_HUB_REPO }}:${{ steps.git_commit_hash.outputs.short_hash }}"
+          docker build -t $TAG .
       - name: Push Docker Image
-        run: docker push ${{ env.IMAGE_URL_FOR_DOCKER_HUB }}
+        run: |
+          TAG="${{ env.DOCKER_HUB_REPO }}:${{ steps.git_commit_hash.outputs.short_hash }}"
+          docker push $TAG
 
 
 
