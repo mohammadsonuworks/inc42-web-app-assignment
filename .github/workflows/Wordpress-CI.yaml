@@ -1,0 +1,10 @@
+name: Wordpress Component CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'wordpress_component/**'
+
+

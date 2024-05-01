@@ -1,0 +1,10 @@
+name: NextJS Component CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'nextjs_component/**'
+
+
