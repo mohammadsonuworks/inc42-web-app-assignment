@@ -1,4 +1,3 @@
-// adder.go
 package main
 
 import (
