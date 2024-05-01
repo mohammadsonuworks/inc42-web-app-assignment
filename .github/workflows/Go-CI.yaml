@@ -18,10 +18,10 @@ jobs:
     steps:
       - name: Checkout source-code
         uses: actions/checkout@v4
-      # - name: Install Go runtime
-      #   uses: actions/setup-go@v5
-      #   with:
-      #     go-version: ${{ env.GO_VERSION }}
+      - name: Install Go runtime
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
       - name: Lint Code
         working-directory: ${{ env.GO_COMPONENT_PATH }}
         run: |
