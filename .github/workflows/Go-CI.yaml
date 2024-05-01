@@ -18,7 +18,7 @@ jobs:
         run: |
           go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.0
           golangci-lint run
-      - Run Tests
+      - name: Run Tests
         run: |
           go test
 
