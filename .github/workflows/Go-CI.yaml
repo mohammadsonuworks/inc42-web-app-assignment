@@ -21,9 +21,10 @@ jobs:
           go-version: ${{ env.GO_VERSION }}
       - name: Lint Code
         working-directory: ${{ env.GO_COMPONENT_PATH }}
-        uses: golangci/golangci-lint-action@v5
-        with:
-          version: ${{ env.GOLANG_LINTER_VERSION }}
+        run: |
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.0
+          golangci-lint run
+
   Test:
     needs: Linter
     runs-on: ubuntu-latest
