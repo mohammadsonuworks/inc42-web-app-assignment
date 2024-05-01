@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'go_component/**'
 
 env:
   GO_VERSION: '1.22'
