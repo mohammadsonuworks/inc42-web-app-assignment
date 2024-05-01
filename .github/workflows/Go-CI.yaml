@@ -15,22 +15,30 @@ jobs:
   Linter:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Install Go runtime
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ env.GO_VERSION }}
+      - name: Checkout source-code
+        uses: actions/checkout@v4
+      # - name: Install Go runtime
+      #   uses: actions/setup-go@v5
+      #   with:
+      #     go-version: ${{ env.GO_VERSION }}
       - name: Lint Code
         working-directory: ${{ env.GO_COMPONENT_PATH }}
         run: |
           go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.0
           golangci-lint run
-
+      - name: Upload source-code
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-code
+          path: .
   Test:
     needs: Linter
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Download source-code
+        uses: actions/download-artifact@v4
+        with:
+          name: source-code
       - name: Install Go runtime
         uses: actions/setup-go@v5
         with:
