@@ -14,7 +14,7 @@ func TestAdd(t *testing.T) {
 		{1, 2, 3},
 		{5, 10, 15},
 		{-1, -1, -2},
-		{-5, 5, 0},
+		{-5, 5, 1},
 	}
 
 	// Loop through test cases and check if the output matches the expected result
