@@ -9,7 +9,6 @@ on:
 
 env:
   GO_VERSION: '1.22'
-  GOLANG_LINTER_VERSION: v1.57
   GO_COMPONENT_PATH: go_component
 
 jobs:
