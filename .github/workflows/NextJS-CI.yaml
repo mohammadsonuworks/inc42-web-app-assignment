@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install dependencies
+        working-directory: ${{ env.NEXTJS_COMPONENT_PATH }}
         run: |
           npm i
       - name: Lint Code
@@ -48,6 +49,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install dependencies
+        working-directory: ${{ env.NEXTJS_COMPONENT_PATH }}
         run: |
           npm i
       - name: Format source-code
