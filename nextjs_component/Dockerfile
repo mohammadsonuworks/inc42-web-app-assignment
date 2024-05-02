@@ -13,7 +13,7 @@ RUN npm install
 # Copy source-code
 COPY . ./
 
-# Expose the default Next.js development port
+# Expose the port
 EXPOSE 3000
 
 # Set the default command to start the Next.js development server
