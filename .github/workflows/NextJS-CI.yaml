@@ -83,8 +83,9 @@ jobs:
           npm i
       - name: Build NextJS project for export
         run: npm run build
+      - name: Change path to exported folder
+        run: cd ${{ env.EXPORTED_APP_PATH }}
       - name: Deploy to Github Pages
-        working-directory: ${{ env.EXPORTED_APP_PATH }}
         uses: actions/deploy-pages@v4
 
 
