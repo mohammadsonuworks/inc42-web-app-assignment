@@ -23,6 +23,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Install dependencies
+        run: |
+          npm i
       - name: Lint Code
         working-directory: ${{ env.NEXTJS_COMPONENT_PATH }}
         run: |
@@ -40,6 +43,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: source-code
+      - name: Install NodeJS runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install dependencies
+        run: |
+          npm i
       - name: Format source-code
         working-directory: ${{ env.NEXTJS_COMPONENT_PATH }}
         run: |
@@ -69,7 +79,7 @@ jobs:
         run: |
           echo "::set-output name=short_hash::$(git rev-parse --short HEAD)"
       - name: Build Docker Image
-        working-directory: ${{ env.GO_COMPONENT_PATH }}
+        working-directory: ${{ env.NEXTJS_COMPONENT_PATH }}
         run: |
           TAG="${{ env.DOCKER_HUB_REPO }}:${{ steps.git_commit_hash.outputs.short_hash }}"
           docker build -t $TAG .
