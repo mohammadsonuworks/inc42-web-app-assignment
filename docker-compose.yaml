@@ -1,3 +1,7 @@
 services:
   go_component:
     build: ./go_component
+  nextjs_component:
+    build: ./nextjs_component
+    ports:
+      - "5000:3000"
