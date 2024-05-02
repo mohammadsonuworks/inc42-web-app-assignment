@@ -1,0 +1,75 @@
+name: Wordpress Component CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'wordpress_component/**'
+      - '.github/workflows/Wordpress-CI.yaml'
+
+env:
+  WORDPRESS_COMPONENT_PATH: wordpress_component
+  PHP_VERSION: '8.3'
+  DOCKER_HUB_REPO: sonukiwi/inc42-assignment-wordpress-app-repo
+
+jobs:
+  Linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source-code
+        uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with: 
+          php-version: ${{ env.PHP_VERSION }}
+          tools: composer
+      - name: Install PHP CodeSniffer
+        run: composer global require "squizlabs/php_codesniffer=*"
+      - name: Lint Code
+        working-directory: ${{ env.WORDPRESS_COMPONENT_PATH }}
+        run: |
+          phpcs --standard=PSR12 --error-severity=1 --warning-severity=6 .
+          phpcs_exit_status=$?
+          if [ $phpcs_exit_status -ne 0 ]; then
+            echo "PHP CodeSniffer detected issues."
+            exit 1
+          fi
+      - name: Upload source-code
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-code
+          path: .
+  BuildAndPush:
+    needs: Linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download source-code
+        uses: actions/download-artifact@v4
+        with:
+          name: source-code
+      - name: Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Log In to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Get Short Git Commit Hash
+        id: git_commit_hash
+        run: |
+          echo "::set-output name=short_hash::$(git rev-parse --short HEAD)"
+      - name: Build Docker Image
+        working-directory: ${{ env.WORDPRESS_COMPONENT_PATH }}
+        run: |
+          TAG="${{ env.DOCKER_HUB_REPO }}:${{ steps.git_commit_hash.outputs.short_hash }}"
+          docker build -t $TAG .
+      - name: Push Docker Image
+        run: |
+          TAG="${{ env.DOCKER_HUB_REPO }}:${{ steps.git_commit_hash.outputs.short_hash }}"
+          docker push $TAG
+
+
+
+
+

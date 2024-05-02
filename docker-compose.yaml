@@ -5,3 +5,7 @@ services:
     build: ./nextjs_component
     ports:
       - "5000:3000"
+  wordpress_component:
+    build: ./wordpress_component
+    ports:
+      - "8000:80"
