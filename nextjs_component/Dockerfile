@@ -5,13 +5,13 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copy the package.json and package-lock.json files
-COPY package*.json .
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy source-code
-COPY . .
+COPY . ./
 
 # Expose the default Next.js development port
 EXPOSE 3000
