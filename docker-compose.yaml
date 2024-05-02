@@ -1,0 +1,3 @@
+services:
+  go_component:
+    build: ./go_component
