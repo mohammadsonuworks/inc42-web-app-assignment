@@ -82,6 +82,7 @@ jobs:
         run: |
           npm i
       - name: Build NextJS project for export
+        working-directory: ${{ env.NEXTJS_COMPONENT_PATH }}
         run: npm run build
       - name: Change path to exported folder
         run: cd ${{ env.EXPORTED_APP_PATH }}
