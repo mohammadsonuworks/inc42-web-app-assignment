@@ -12,6 +12,7 @@ env:
   NODE_VERSION: 20
   NEXTJS_COMPONENT_PATH: nextjs_component
   DOCKER_HUB_REPO: sonukiwi/inc42-assignment-nextjs-app-repo
+  EXPORTED_APP_PATH: nextjs_component/out
 
 jobs:
   Linter:
@@ -64,6 +65,27 @@ jobs:
         run: |
           TAG="${{ env.DOCKER_HUB_REPO }}:${{ steps.git_commit_hash.outputs.short_hash }}"
           docker push $TAG
+  Deploy:
+    needs: BuildAndPush
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download source-code
+        uses: actions/download-artifact@v4
+        with:
+          name: source-code
+      - name: Install NodeJS runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install dependencies
+        working-directory: ${{ env.NEXTJS_COMPONENT_PATH }}
+        run: |
+          npm i
+      - name: Build NextJS project for export
+        run: npm run build
+      - name: Deploy to Github Pages
+        working-directory: ${{ env.EXPORTED_APP_PATH }}
+        uses: actions/deploy-pages@v4
 
 
 

@@ -6,8 +6,7 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint",
-        "format": "npx prettier . --write"
+        "lint": "next lint"
     },
     "dependencies": {
         "@babel/preset-env": "^7.24.5",
