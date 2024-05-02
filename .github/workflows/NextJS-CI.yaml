@@ -12,7 +12,6 @@ env:
   NODE_VERSION: 20
   NEXTJS_COMPONENT_PATH: nextjs_component
   DOCKER_HUB_REPO: sonukiwi/inc42-assignment-nextjs-app-repo
-  EXPORTED_APP_PATH: nextjs_component/out
 
 jobs:
   Linter:
